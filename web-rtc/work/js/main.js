@@ -37,7 +37,7 @@ var p = navigator.mediaDevices.getUserMedia(constraints);
 p.then(function (stream){
   window.stream = stream; // stream available to console
 
-    if (window.URL) {
+  if (window.URL) {
       video.src = window.URL.createObjectURL(stream);
   } else {
     video.src = stream; 
