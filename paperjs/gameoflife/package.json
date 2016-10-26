@@ -1,0 +1,25 @@
+{
+  "name": "gameoflife",
+  "version": "1.0.0",
+  "description": "game of life",
+  "main": "lib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+      "express": "3.3.5",
+      "jade": "*",
+      "moment": "2.3.x",
+      "underscore": "1.4.x",
+      "typogr": "0.5.x",
+      "ejs": "^1.0.0"
+  },
+  "keywords": [
+    "game",
+    "of",
+    "life",
+    "paperjs"
+  ],
+  "author": "AF, MK",
+  "license": "MIT"
+}
