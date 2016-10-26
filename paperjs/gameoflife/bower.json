@@ -1,0 +1,20 @@
+{
+  "name": "gameoflife",
+  "homepage": "https://github.com/arfo90/hack",
+  "authors": [
+    "Amireza Fatemi <arfo.amireza@gmail.com>"
+  ],
+  "description": "game of life",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper": "^0.10.2"
+  }
+}
