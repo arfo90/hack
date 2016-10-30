@@ -1,5 +1,5 @@
 var worldGrid = [];
-var worldSize = 3;
+var worldSize = 9;
 
 function seedTheWorld(){
 	for(j = 0; j < worldSize; j++){
@@ -25,14 +25,15 @@ seedTheWorld();
 console.log(worldGrid);
 
 function ruleTheWorld(x, y){
-	var aliveNeighbor = 0;
-	var currentNeighborX = setRow(x);
-	var currentNeighborY = setRow(y);
-
-	console.log('this is x ..'+ currentNeighborX + '  this is y ..'+ currentNeighborY);
-	for (ix = 0; ix < 3; ix++){
+	aliveNeighbor = 0;
+	currentNeighborX = setRow(x);
+	currentNeighborY = setRow(y);
+	maxX = setMax(x);
+	maxY = setMax(y);
+	// Bascially check all srounding!
+	for (ix = 0; ix < maxX; ix++){
 		if (currentNeighborX < worldSize){
-			for (iy = 0; iy < 3; iy++){
+			for (iy = 0; iy < maxY; iy++){
 				if (worldGrid[currentNeighborX][currentNeighborY]){
 					aliveNeighbor++;
 				}
@@ -43,6 +44,7 @@ function ruleTheWorld(x, y){
 	 }
     }
 	if (worldGrid[x][y]){
+		// Shoudn't count itself
 		aliveNeighbor--;
 	}
 	console.log(aliveNeighbor);
@@ -57,8 +59,17 @@ function setRow(val){
 	return val;
 }
 
+function setMax(val){
+	if (val == 0 || val >= worldSize){
+		val = 2;
+	} else {
+		val = 3;
+	}
+	return val;
+}
+
 console.log(worldGrid[1][1]);
-ruleTheWorld(0,1);
+ruleTheWorld(4,4);
 
 function onFrame(event){
 
