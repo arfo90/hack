@@ -29,26 +29,24 @@ function ruleTheWorld(x, y){
 	var currentNeighborX = setRow(x);
 	var currentNeighborY = setRow(y);
 
+	console.log('this is x ..'+ currentNeighborX + '  this is y ..'+ currentNeighborY);
 	for (ix = 0; ix < 3; ix++){
-		console.log('this is x ..'+ currentNeighborX + '  this is y ..'+ currentNeighborY);
-		if (currentNeighborX = worldSize){
-			console.log(aliveNeighbor);
-			return;
-		}
-		for (iy = 0; iy < 3; iy++){
-			if (worldGrid[currentNeighborX][currentNeighborY]){
-				aliveNeighbor++;
+		if (currentNeighborX < worldSize){
+			for (iy = 0; iy < 3; iy++){
+				if (worldGrid[currentNeighborX][currentNeighborY]){
+					aliveNeighbor++;
+				}
+				currentNeighborY++;
 			}
-			currentNeighborY++;
-		}
-		currentNeighborX++;
-		currentNeighborY = setRow(y);
-	}
+			currentNeighborY = setRow(y);
+			currentNeighborX++;
+	 }
+    }
 	if (worldGrid[x][y]){
 		aliveNeighbor--;
 	}
 	console.log(aliveNeighbor);
-}
+ }
 
 function setRow(val){
 	if (val == 0){
@@ -60,7 +58,7 @@ function setRow(val){
 }
 
 console.log(worldGrid[1][1]);
-ruleTheWorld(1,2);
+ruleTheWorld(0,1);
 
 function onFrame(event){
 
