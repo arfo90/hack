@@ -7,59 +7,76 @@
 **
 */
 
-var worldGrid = [];
-var worldSize = 9;
-var slSize = new Size();
-slSize.width = 10;
-slSize.height = 10;
+if (worldGrid == undefined){
+  var worldGrid = [];
+}
+var worldSize = 8;
 
-var sizeScale = worldSize * 30;
+var scale = 30;
+var sizeScale = worldSize * scale;
 
 var size = new Size(sizeScale);
 var pageCenter = new Point(view.center.x, view.center.y); 
 
-var rect = new Rectangle(size);
-var path2 = new Path.Rectangle(rect);
+var mainFrame = new Rectangle(size);
+var path2 = new Path.Rectangle(mainFrame);
 path2.strokeColor = 'black';
 path2.position = pageCenter;
+var mainPoint = new Point(path2.bounds.topLeft);
 // console.log(pageCenter);
 
 
 function seedTheWorld(){
 	for(j = 0; j < worldSize; j++){
-		console.log('heeers');
-		worldGrid.push(getRow());
+		worldGrid.push(getRow(j));
 	}
 }
 
-function getRandomeSeed(){
+function getRandomeSeed(currenctRow, currenctCol){
 	var num = Math.random() * -2 + 2;
-	var cell = {path: new Path(), state: num > 1};
+	num = num > 1;
+	var cell = {path: getPath(num, currenctRow, currenctCol), state: num};
 	return cell;
 }
 
-function getRow(){
+function getRow(currenctRow){
 	var row = new Array();
 	for (i = 0; i < worldSize;i++){
-		row.push(getRandomeSeed());
+		row.push(getRandomeSeed(currenctRow, i));
 	}
 	return row;
 }
 
-function circleOneTurn(world){
+function getPath(state, currenctRow, currenctCol){
+	var size = new Size(scale); 
+	var point = new Point(mainPoint);
+	point.x += currenctRow * scale;
+	point.y += currenctCol * scale;
+	var rect = new Rectangle(point, size);
+	var path = new Path.Rectangle(rect);
+	path.strokeColor = 'black';
+	if (state){
+		path.fillColor = 'black';
+	}
+	// path.bounds.topLeft = mainFrameTopLeftPoint;
+	return path;
+}
+
+function circleOneTurn(){
 	var i = 0;
 	var j = 0;
 	while(i < worldSize){
 		while(j < worldSize){
-			var cell = world[i][j];
 			var currenctCellState = whatIsTheStateOfCell(i,j);
 			if (currenctCellState < 2 || currenctCellState > 3) {
-				cell.state = false;		
+				worldGrid[i][j].state = false;		
 			}
 
-			if (cell.state == false && currenctCellState == 3){
-				cell.state = true;
+			if (worldGrid[i][j].state == false && currenctCellState == 3){
+				worldGrid[i][j].state = true;
 			}
+		    
+		    // console.log(worldGrid[i][j].path);
 
 			j++;
 		}
@@ -97,7 +114,7 @@ function whatIsTheStateOfCell(x, y){
 		// Shoudn't count itself
 		aliveNeighbor--;
 	}
-	console.log(aliveNeighbor);
+	return aliveNeighbor;
  }
 
 function setRow(val){
@@ -123,13 +140,21 @@ whatIsTheStateOfCell(4,4);
 
 function onMouseDown(event){
 	//on mouse down
+	console.log(worldGrid);
+	console.log(whatIsTheStateOfCell(5,5));
 }
 
 function onFrame(event){
 	circleOneTurn(worldGrid);
-}
 
-circleOneTurn(worldGrid);
+			// if (worldGrid[4][2].state){
+			// 	path = new Path(worldGrid[4][2].path);
+			// 	path.fillColor = 'black';
+			// } else {
+			// 	path = new Path(worldGrid[4][2].path);
+			// 	path.fillColor = 'red';
+			// }
+}
 
 // console.log('here we go');
 // // very first pathe
@@ -152,7 +177,6 @@ circleOneTurn(worldGrid);
 
 
 // var paper = new PaperScope;
-console.log(worldGrid);
 
 
 
