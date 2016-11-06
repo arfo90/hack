@@ -10,9 +10,9 @@
 if (worldGrid == undefined){
   var worldGrid = [];
 }
-var worldSize = 8;
+var worldSize = 40;
 
-var scale = 30;
+var scale = 15;
 var sizeScale = worldSize * scale;
 
 var size = new Size(sizeScale);
@@ -145,15 +145,31 @@ function onMouseDown(event){
 }
 
 function onFrame(event){
-	circleOneTurn(worldGrid);
+	var i = 0;
+	var j = 0;
+	while(i < worldSize){
+		while(j < worldSize){
+			var currenctCellState = whatIsTheStateOfCell(i,j);
+			if (currenctCellState < 2 || currenctCellState > 3) {
+				worldGrid[i][j].state = false;		
+			}
 
-			// if (worldGrid[4][2].state){
-			// 	path = new Path(worldGrid[4][2].path);
-			// 	path.fillColor = 'black';
-			// } else {
-			// 	path = new Path(worldGrid[4][2].path);
-			// 	path.fillColor = 'red';
-			// }
+			if (worldGrid[i][j].state == false && currenctCellState == 3){
+				worldGrid[i][j].state = true;
+			}
+		    
+		    // console.log(worldGrid[i][j].path);
+		    if (worldGrid[i][j].state){
+				worldGrid[i][j].path.fillColor = 'black';
+			} else {
+				worldGrid[i][j].path.fillColor = '#BE2625';
+			}
+
+			j++;
+		}
+		j = 0;
+		i++;
+	}	
 }
 
 // console.log('here we go');
