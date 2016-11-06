@@ -1,5 +1,19 @@
+/*
+** rules:
+** Any live cell with fewer than two live neighbours dies, as if caused by under-population.
+** Any live cell with two or three live neighbours lives on to the next generation.
+** Any live cell with more than three live neighbours dies, as if by over-population.
+** Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+**
+*/
+
 var worldGrid = [];
 var worldSize = 9;
+var slSize = new Size();
+slSize.width = 10;
+slSize.height = 10;
+
+
 
 function seedTheWorld(){
 	for(j = 0; j < worldSize; j++){
@@ -21,10 +35,31 @@ function getRow(){
 	return row;
 }
 
+function circleOneTurn(state){
+	var i = 0;
+	var j = 0;
+	while(i < worldSize){
+		while(j < worldSize){
+			var currenctCellState = whatIsTheStateOfCell(i,j);
+			if (currenctCellState < 2 || currenctCellState > 3) {
+				worldSize[i][j] = false;		
+			}
+
+			if (currenctCellState == 3 && worldSize[i][j] == false){
+				worldSize[i][j] = true;
+			}
+
+			j++;
+		}
+		j = 0;
+		i++;
+	}	
+}
+
 seedTheWorld();
 console.log(worldGrid);
 
-function ruleTheWorld(x, y){
+function whatIsTheStateOfCell(x, y){
 	aliveNeighbor = 0;
 	currentNeighborX = setRow(x);
 	currentNeighborY = setRow(y);
@@ -69,12 +104,18 @@ function setMax(val){
 }
 
 console.log(worldGrid[1][1]);
-ruleTheWorld(4,4);
-
-function onFrame(event){
+whatIsTheStateOfCell(4,4);
 
 
+function onMouseDown(event){
+	//on mouse down
 }
+
+var a = 0;
+function onFrame(event){
+	circleOneTurn(worldGrid);
+}
+
 
 
 console.log('here we go');
@@ -84,6 +125,21 @@ var path = new Path.Circle({
     radius: 30,
     strokeColor: 'black'
 });
+
+
+var rect = new Rectangle(10, 20, 200, 100);
+var path2 = new Path.Rectangle(rect);
+path2.strokeColor = 'black';
+
+
+
+
+// var path = new Path.Rectangle(rect);
+
+
+
+// var paper = new PaperScope;
+// console.log(paper);
 
 
 
