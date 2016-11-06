@@ -13,6 +13,16 @@ var slSize = new Size();
 slSize.width = 10;
 slSize.height = 10;
 
+var sizeScale = worldSize * 30;
+
+var size = new Size(sizeScale);
+var pageCenter = new Point(view.center.x, view.center.y); 
+
+var rect = new Rectangle(size);
+var path2 = new Path.Rectangle(rect);
+path2.strokeColor = 'black';
+path2.position = pageCenter;
+// console.log(pageCenter);
 
 
 function seedTheWorld(){
@@ -24,7 +34,8 @@ function seedTheWorld(){
 
 function getRandomeSeed(){
 	var num = Math.random() * -2 + 2;
-	return num > 1;
+	var cell = {path: new Path(), state: num > 1};
+	return cell;
 }
 
 function getRow(){
@@ -35,18 +46,19 @@ function getRow(){
 	return row;
 }
 
-function circleOneTurn(state){
+function circleOneTurn(world){
 	var i = 0;
 	var j = 0;
 	while(i < worldSize){
 		while(j < worldSize){
+			var cell = world[i][j];
 			var currenctCellState = whatIsTheStateOfCell(i,j);
 			if (currenctCellState < 2 || currenctCellState > 3) {
-				worldSize[i][j] = false;		
+				cell.state = false;		
 			}
 
-			if (currenctCellState == 3 && worldSize[i][j] == false){
-				worldSize[i][j] = true;
+			if (cell.state == false && currenctCellState == 3){
+				cell.state = true;
 			}
 
 			j++;
@@ -56,8 +68,9 @@ function circleOneTurn(state){
 	}	
 }
 
+
+
 seedTheWorld();
-console.log(worldGrid);
 
 function whatIsTheStateOfCell(x, y){
 	aliveNeighbor = 0;
@@ -69,7 +82,8 @@ function whatIsTheStateOfCell(x, y){
 	for (ix = 0; ix < maxX; ix++){
 		if (currentNeighborX < worldSize){
 			for (iy = 0; iy < maxY; iy++){
-				if (worldGrid[currentNeighborX][currentNeighborY]){
+				var cell = worldGrid[currentNeighborX][currentNeighborY];
+				if (cell != undefined && cell.state){
 					aliveNeighbor++;
 				}
 				currentNeighborY++;
@@ -78,7 +92,8 @@ function whatIsTheStateOfCell(x, y){
 			currentNeighborX++;
 	 }
     }
-	if (worldGrid[x][y]){
+    var cell = worldGrid[x][y];
+	if (cell.state){
 		// Shoudn't count itself
 		aliveNeighbor--;
 	}
@@ -103,7 +118,6 @@ function setMax(val){
 	return val;
 }
 
-console.log(worldGrid[1][1]);
 whatIsTheStateOfCell(4,4);
 
 
@@ -111,25 +125,24 @@ function onMouseDown(event){
 	//on mouse down
 }
 
-var a = 0;
 function onFrame(event){
 	circleOneTurn(worldGrid);
 }
 
+circleOneTurn(worldGrid);
+
+// console.log('here we go');
+// // very first pathe
+// var path = new Path.Circle({
+//     center: view.center,
+//     radius: 30,
+//     strokeColor: 'black'
+// });
 
 
-console.log('here we go');
-// very first pathe
-var path = new Path.Circle({
-    center: view.center,
-    radius: 30,
-    strokeColor: 'black'
-});
-
-
-var rect = new Rectangle(10, 20, 200, 100);
-var path2 = new Path.Rectangle(rect);
-path2.strokeColor = 'black';
+// var rect = new Rectangle(10, 20, 200, 100);
+// var path2 = new Path.Rectangle(rect);
+// path2.strokeColor = 'black';
 
 
 
@@ -139,7 +152,7 @@ path2.strokeColor = 'black';
 
 
 // var paper = new PaperScope;
-// console.log(paper);
+console.log(worldGrid);
 
 
 
