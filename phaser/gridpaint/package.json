@@ -1,0 +1,11 @@
+{
+  "name": "gridpaint",
+  "version": "1.0.0",
+  "description": "Grid Paint",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
