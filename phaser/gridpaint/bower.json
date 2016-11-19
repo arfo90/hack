@@ -1,0 +1,13 @@
+{
+  "name": "gridpaint",
+  "description": "Grid Paint",
+  "main": "index.js",
+  "authors": [
+    "Amireza Fatemi <arfo.amireza@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/arfo90/hack",
+  "dependencies": {
+    "phaser": "^2.6.2"
+  }
+}
