@@ -1,6 +1,8 @@
-module Crudapp
+require_relative 'base'
+
+module Crudapp 
 	module Model
-		class UserModel
+		class UserModel < ActiveRecord::Base
 			def puts_s
 				p 'testing'
 			end
