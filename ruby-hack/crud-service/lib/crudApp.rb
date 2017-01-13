@@ -10,4 +10,12 @@ module Crudapp
  module Model
  	autoload :UserModel, 'crudApp/models/userModel.rb'
  end
+
+ module API
+	autoload :User, 'api/user.rb'
+
+	class Mount < Grape::API
+		mount Crudapp::API::User
+	end
+ end
 end
