@@ -2,8 +2,8 @@ require 'mysql2'
 require "active_record"
 
 ActiveRecord::Base.establish_connection(
-  :adapter  => 'mysql',
-  :database => 'database',
-  :username => 'user',
-  :password => 'password',
+  :adapter  => 'mysql2',
+  :database => 'crudApp',
+  :username => 'root',
+  :password => '1',
   :host     => 'localhost')
