@@ -8,7 +8,11 @@ module Crudapp
  autoload :CrudAgent, 'crudApp/crudAgent.rb'
 
  module Model
- 	autoload :UserModel, 'crudApp/models/userModel.rb'
+ 	autoload :UserModel, 'crudApp/models/user_model.rb'
+ end
+
+ module Service
+   autoload :UserService, 'crudApp/services/user/user_service.rb'
  end
 
  module API
