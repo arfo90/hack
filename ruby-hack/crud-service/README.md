@@ -13,3 +13,9 @@ $ sudo rackup
 
 For now you only call simple get as below
   get localhost:port/user
+
+TODO:
+  - Databse migraton script (active record)
+  - Validating rest payload and map it to active record
+  - Exception handling and logging
+  - project re-struct (having services and DDD style)
