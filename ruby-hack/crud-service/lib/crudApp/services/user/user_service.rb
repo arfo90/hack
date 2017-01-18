@@ -20,8 +20,8 @@ module Crudapp
         user.save
       end
 
-      def update_user user_id params
-        @user_model user_id params
+      def update_user user_id, params
+        @user_model.update user_id params
       end
 
       def delete_user_by_id user_id
