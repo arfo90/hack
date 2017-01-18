@@ -23,15 +23,29 @@ module Crudapp
           requires :user_id, type: Integer, desc: 'User id.'
         end
         route_param :user_id do
-        get do
-          begin
-            user_service = Crudapp::Service::UserService.new
-            user_service.retrive_user_by_id(params[:user_id]).to_json
-          rescue Exception => e
-            p e
+          get do
+            begin
+              user_service = Crudapp::Service::UserService.new
+              user_service.retrive_user_by_id(params[:user_id]).to_json
+            rescue Exception => e
+              p e
+            end
           end
         end
-      end
+
+        desc 'Delete a user'
+          params do
+            requires :user_id, type: Integer, desc: 'User id.'
+          end
+          delete ':user_id' do
+            # authenticate!
+            begin
+              user_service = Crudapp::Service::UserService.new
+              user_service.delete_user_by_id(params[:user_id])
+            rescue Exception => e
+              p e
+            end
+          end
 
         params do
           # requires :status, type: String, desc: 'Your status.'
