@@ -15,6 +15,10 @@ module Crudapp
    autoload :UserService, 'crudApp/services/user/user_service.rb'
  end
 
+ module Representer
+   autoload :UserRepresenter, 'crudApp/representer/user/user_representer.rb'
+ end
+
  module API
 	autoload :User, 'api/user.rb'
 

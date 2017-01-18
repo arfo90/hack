@@ -21,6 +21,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.4)
+    declarative (0.0.8)
+      uber (>= 0.0.15)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     equalizer (0.0.11)
@@ -48,10 +50,16 @@ GEM
     rack (2.0.1)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    representable (3.0.2)
+      declarative (~> 0.0.5)
+      uber (>= 0.0.15, < 0.2.0)
+    roar (1.1.0)
+      representable (~> 3.0.0)
     thread_safe (0.3.5)
     tool (0.2.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uber (0.1.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -65,6 +73,7 @@ DEPENDENCIES
   activerecord (~> 5.0, >= 5.0.0.1)
   grape
   mysql2
+  roar
 
 BUNDLED WITH
    1.11.2
