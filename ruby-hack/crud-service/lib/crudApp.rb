@@ -16,6 +16,7 @@ module Crudapp
  end
 
  module Representer
+   autoload :BaseRepresenter, 'crudApp/representer/base_representer.rb'
    autoload :UserRepresenter, 'crudApp/representer/user/user_representer.rb'
  end
 
