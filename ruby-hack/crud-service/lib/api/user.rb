@@ -3,8 +3,36 @@ module Crudapp
     class User < Grape::API
       version 'v1', using: :header, vendor: 'crudapp'
 
-      resource :user do
-        desc 'Create a status.'
+      resource :users do
+        desc 'Retrive all users'
+        get :all do
+
+        end
+
+        get do
+          begin
+            user_service = Crudapp::Service::UserService.new
+            user_service.retrive_all_users.to_json
+          rescue Exception => e
+            p e
+          end
+        end
+
+        desc 'Return a status.'
+        params do
+          requires :user_id, type: Integer, desc: 'User id.'
+        end
+        route_param :user_id do
+        get do
+          begin
+            user_service = Crudapp::Service::UserService.new
+            user_service.retrive_user_by_id(params[:user_id]).to_json
+          rescue Exception => e
+            p e
+          end
+        end
+      end
+
         params do
           # requires :status, type: String, desc: 'Your status.'
         end
