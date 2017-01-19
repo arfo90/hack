@@ -15,7 +15,11 @@ module Crudapp
 
       def create_new_user param
         user = Crudapp::Model::UserModel.new
-        Crudapp::Representer::UserRepresenter.new(user).from_json(param)
+        begin
+          Crudapp::Representer::UserRepresenter.new(user).from_json(param)
+        rescue Exception => e
+          p e
+        end
         user.save
       end
 

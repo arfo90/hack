@@ -4,7 +4,7 @@ require 'roar/json'
 module Crudapp
   module Representer
     class BaseRepresenter < Roar::Decorator
-      include Roar::Json
+      include Roar::JSON
     end
   end
 end

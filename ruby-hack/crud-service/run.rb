@@ -13,7 +13,9 @@ require_relative 'lib/crudApp'
 
 new_user_data = { username: '007', name: 'james bond'}
 
-user_service = Crudapp::Service::UserService.new
-# user_service.create_new_user new_user_data
+new_user_data2 = '{"username":"Linoleum", "name":"jack"}'
 
-p user_service.retrive_user_by_id(2).to_json
+user_service = Crudapp::Service::UserService.new
+user_service.create_new_user new_user_data2
+
+# p user_service.retrive_user_by_id(2).to_json
