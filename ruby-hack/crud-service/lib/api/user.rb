@@ -48,10 +48,17 @@ module Crudapp
           end
 
         params do
-          # requires :status, type: String, desc: 'Your status.'
+          # requires :username, type: String, desc: 'Your status.'
+          # requires :name, type: String, desc: 'Your status.'
         end
         post do
-          puts 'test'
+          p params
+          begin
+            user_service = Crudapp::Service::UserService.new
+            user_service.create_new_user(params)
+          rescue Exception => e
+            p e
+          end
         end
       end
     end
