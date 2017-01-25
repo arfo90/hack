@@ -8,7 +8,7 @@ module Crudapp
  autoload :CrudAgent, 'crudApp/crudAgent.rb'
 
  module Model
- 	autoload :UserModel, 'crudApp/models/user_model.rb'
+    autoload :UserModel, 'crudApp/models/user/user_model.rb'
  end
 
  module Service

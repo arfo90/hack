@@ -13,7 +13,7 @@ require_relative 'lib/crudApp'
 
 new_user_data = { username: '007', name: 'james bond'}
 
-new_user_data2 = '{"username":"Linoleum", "name":"jack"}'
+new_user_data2 = '{"username":"Linoleum2", "name":"jack"}'
 
 user_service = Crudapp::Service::UserService.new
 user_service.create_new_user new_user_data2
