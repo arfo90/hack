@@ -16,6 +16,6 @@ For now you only call simple get as below
 
 TODO:
   - Databse migraton script (active record) [x]
-  - Validating rest payload and map it to active record []
-  - Exception handling and logging []
-  - project re-struct (having services and DDD style) []
+  - Validating rest payload and map it to active record [X]
+  - Exception handling and logging [X]
+  - project re-struct (having services and DDD style) [X]
