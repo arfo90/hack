@@ -1,4 +1,4 @@
 ---
-project_name: crudApp
-module_name: crudApp
-module_dir: "/home/arfo/development/repos/hack/ruby-hack/crud-service/lib/crudApp"
+project_name: lyrics
+module_name: lyrics
+module_dir: "/home/arfo/development/repos/hack/ruby-hack/lyrics/lib/lyrics"
