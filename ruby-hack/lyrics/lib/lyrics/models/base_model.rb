@@ -1,5 +1,5 @@
 require 'mongoid'
-Mongoid.load!('/home/arfo/development/repos/hack/ruby-hack/lyrics/env/dev/mongoid.yml')
+Mongoid.load!(File.expand_path('./env/dev/mongoid.yml'), :development)
 
 class BaseModel
   include Mongoid::Document
