@@ -11,14 +11,16 @@ module Lyrics
   end
 
   module Service
-    autoload :SongService, 'lyrics/models/song_service.rb'
+    autoload :SongService, 'lyrics/services/song_service.rb'
   end
 
   module API
     autoload :Songs, 'routes/songs'
+    autoload :Healthcheck, 'routes/healthcheck'
 
     class Mount < Grape::API
       mount Lyrics::API::Songs
+      mount Lyrics::API::Healthcheck
     end
   end
 end

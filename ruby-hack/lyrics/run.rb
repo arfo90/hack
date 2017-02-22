@@ -6,7 +6,7 @@ song = Lyrics::Model::SongModel.new
 
 song2 = Lyrics::Model::SongModel.new(
   singer: 'EBI',
-  albume: 'Avaz',
+  title: 'Avaz',
   lyrics: ['ye ghabari', 'ghose dare']
 )
 
