@@ -4,17 +4,21 @@ song = Lyrics::Model::SongModel.new
 
 # song.save_doc('anathem', 'we are here...', ['we are not just a moement in time', 'lalalal'])
 
-song2 = Lyrics::Model::SongModel.new(
-  singer: 'EBI',
-  title: 'Avaz',
-  lyrics: ['ye ghabari', 'ghose dare']
-)
+# song2 = Lyrics::Model::SongModel.new(
+#   singer: 'EBI',
+#   title: 'Avaz',
+#   lyrics: ['ye ghabari', 'ghose dare']
+# )
+
 
 # song2.save
 
-find_song = Lyrics::Model::SongModel.find('58ac8b414d6e3819aa7f523b')
+# find_song = Lyrics::Model::SongModel.find('58ac8b414d6e3819aa7f523b')
+
+find_song = Lyrics::Service::SearchService.new
+find_song.search_by_title("dfdf")
 # find_song.find('58ac8b414d6e3819aa7f523b')
-p find_song
+# p find_song
 
 
 # field :singer, type: String

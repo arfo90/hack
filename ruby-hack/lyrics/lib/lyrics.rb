@@ -12,6 +12,7 @@ module Lyrics
 
   module Service
     autoload :SongService, 'lyrics/services/song_service.rb'
+    autoload :SearchService, 'lyrics/services/search_service.rb'
   end
 
   module API
