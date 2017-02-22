@@ -7,7 +7,11 @@ Bundler.require(:default)
 module Lyrics
 
   module Model
-    autoload :SongModel, 'lyrics/models/song.rb'
+    autoload :SongModel, 'lyrics/models/song_model.rb'
+  end
+
+  module Service
+    autoload :SongService, 'lyrics/models/song_service.rb'
   end
 
   module API
