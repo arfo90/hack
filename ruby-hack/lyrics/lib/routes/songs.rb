@@ -16,6 +16,7 @@ module Lyrics
           rescue Exception => e
           end
         end
+        
 
         # desc 'Return a status.'
         # params do
@@ -41,14 +42,16 @@ module Lyrics
         #   end
 
         params do
-          # requires :username, type: String, desc: 'Your status.'
-          # requires :name, type: String, desc: 'Your status.'
+          requires :title, type: String, desc: 'Song title'
+          requires :singer, type: String, desc: 'Song singer'
+          requires :lyrics, type: Array, desc: 'Song lyrics'
         end
         post do
-          p params
+          song = Lyrics::Service::SongService.new
           begin
+            song.new_song(params.singer, params.title, params.lyrics)
           rescue Exception => e
-            p e
+            error! "#{e}", 404
           end
         end
       end

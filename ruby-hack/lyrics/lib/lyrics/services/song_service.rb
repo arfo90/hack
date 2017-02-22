@@ -1,8 +1,8 @@
 module Lyrics
   module Service
     class SongService
-      def insert_song(singer, title, lyrics)
-        song = Lyrics::Model::Song.new
+      def new_song(singer, title, lyrics)
+        song = Lyrics::Model::SongModel.new
         song.save_doc(singer, title, lyrics)
       end
       
