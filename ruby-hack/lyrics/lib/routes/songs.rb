@@ -43,13 +43,15 @@ module Lyrics
 
         params do
           requires :title, type: String, desc: 'Song title'
-          requires :singer, type: String, desc: 'Song singer'
-          requires :lyrics, type: Array, desc: 'Song lyrics'
+          requires :artist, type: String, desc: 'Song artist'
+          requires :lyrics, type: String, desc: 'Song lyrics'
+          requires :info, type: String, desc: 'Song Information: history, type'
         end
         post do
           song = Lyrics::Service::SongService.new
           begin
-            song.new_song(params.singer, params.title, params.lyrics)
+            song.new_song(params.artist, params.title, params.lyrics, params.info)
+            status 201
           rescue Exception => e
             error! "#{e}", 404
           end
