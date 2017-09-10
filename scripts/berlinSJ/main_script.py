@@ -30,36 +30,36 @@ for i in range(1,20):
 
 
 #Grab full content from the links
-    for link in allJobLink:
-        response =  requests.get(link, headers = user_agent)
-        jobSoup = BeautifulSoup(response.content, 'html.parser')
+for link in allJobLink:
+    response =  requests.get(link, headers = user_agent)
+    jobSoup = BeautifulSoup(response.content, 'html.parser')
 
-        allJobsListeach = jobSoup.find_all("div", class_="w-col w-col-8")
+    allJobsListeach = jobSoup.find_all("div", class_="w-col w-col-8")
 
 
 
 #Get company name, Job Title, Small Description and Long Description
 
 
-        for job in allJobsListeach:
-            companyName = job.find('span', class_='title-company-name')
-            anchor= companyName.text.split("// ")[1]
+    for job in allJobsListeach:
+        companyName = job.find('span', class_='title-company-name')
+        anchor= companyName.text.split("// ")[1]
 
-            jobTitle = job.find("h1", class_="bsj-h1").get_text()
-            justIt = jobTitle.split("//")[0]
+        jobTitle = job.find("h1", class_="bsj-h1").get_text()
+        justIt = jobTitle.split("//")[0]
 
-            job_small_description_tag = job.find('div', class_= 'paragraph')
-            job_small_description = job_small_description_tag.get_text()
+        job_small_description_tag = job.find('div', class_= 'paragraph')
+        job_small_description = job_small_description_tag.get_text()
 
-            job_long_description_tag = job.find('div', class_= 'white-bg')
-            job_long_description = job_long_description_tag.get_text()
+        job_long_description_tag = job.find('div', class_= 'white-bg')
+        job_long_description = job_long_description_tag.get_text()
 
 #Create the dictionnary
 
-            jobAd = { 'companyName': anchor.encode('utf-8'), 'jobTitle': justIt.encode('utf-8'), 'jobDescriptipnShort': job_small_description.encode('utf-8'),
+        jobAd = { 'companyName': anchor.encode('utf-8'), 'jobTitle': justIt.encode('utf-8'), 'jobDescriptipnShort': job_small_description.encode('utf-8'),
                     'jobDescriptipnLong': job_long_description.encode('utf-8') }
 
-            allJobsAd.append(jobAd)
+        allJobsAd.append(jobAd)
 
 
 
