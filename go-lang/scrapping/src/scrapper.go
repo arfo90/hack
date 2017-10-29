@@ -6,7 +6,8 @@ import (
   "log"
   "strings"
 
-  _"database/sql"
+  "database/sql"
+  _ "github.com/go-sql-driver/mysql"
 )
 
 func scrapUrls(url string) []string{
@@ -31,7 +32,7 @@ func scrapUrls(url string) []string{
   return urls
 }
 
-func scrap_job(url string) map[string]string{
+func scrapJob(url string) map[string]string{
   job := make(map[string]string)
   doc, err := goquery.NewDocument(url)
 
@@ -48,12 +49,20 @@ func scrap_job(url string) map[string]string{
   return job
 }
 
+func dbConnect(){
+  _, err := sql.Open("mysql", "user:password@/dbname")
+
+  if err != nil {
+    log.Fatal(err)
+  }
+}
+
 func main(){
   urls := scrapUrls("http://berlinstartupjobs.com/engineering/page/1/")
 
   for _, u := range urls {
     url := strings.Replace(u, "location.href=", "", -1)
-    job := scrap_job(strings.Trim(url, "'"))
+    job := scrapJob(strings.Trim(url, "'"))
     fmt.Printf("%s \n", job["Title"])
     fmt.Printf("%s \n", job["Description"])
     fmt.Printf("%s \n", job["Details"])
