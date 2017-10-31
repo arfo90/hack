@@ -6,6 +6,7 @@ import (
   "log"
   "strings"
   "os"
+  "time"
 
   "database/sql"
   _ "github.com/go-sql-driver/mysql"
@@ -45,7 +46,9 @@ func scrapJob(url string) map[string]string{
 
   job["Title"] = doc.Find("h1.bsj-h1").Text()
   job["Description"] = doc.Find("div.job-details").Text()
-  job["Details"] = doc.Find("div.w-richtext").Text()
+  job["CompanyName"] = strings.Trim(doc.Find("span.title-company-name").Text(), "// ")
+  job["PublishedDate"] = doc.Find("div.product-listing-date").Text()
+  job["ShortDescription"] = doc.Find("div.paragraph").Text()
 
   return job
 }
@@ -57,14 +60,27 @@ func dbConnect() *sql.DB{
   if err != nil {
     log.Fatal(err)
   }
-  defer db.Close()
 
   return db
 }
 
 func insert(sqlDb *sql.DB, job map[string]string){
   db := sqlDb
-  _, err := db.Prepare("")
+  tx, err := db.Begin()
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer tx.Rollback()
+  stmt, err := tx.Prepare("INSERT INTO vacancy(company_name,job_title,description,created_date,source,description_long) VALUES (?,?,?,?,?,?)")
+  defer stmt.Close()
+  if err != nil {
+    log.Fatal(err)
+  }
+  _, err = stmt.Exec(job["CompanyName"], job["Title"], job["ShortDescription"], time.Now(), "BerlinStartupJobs", job["Description"])
+  if err != nil {
+    log.Fatal(err)
+  }
+  err = tx.Commit()
   if err != nil {
     log.Fatal(err)
   }
@@ -77,9 +93,13 @@ func main(){
   for _, u := range urls {
     url := strings.Replace(u, "location.href=", "", -1)
     job := scrapJob(strings.Trim(url, "'"))
-    fmt.Printf("%s \n", job["Title"])
-    fmt.Printf("%s \n", job["Description"])
-    fmt.Printf("%s \n", job["Details"])
+    /*
+    fmt.Printf("\n -- %s \n", job["Title"])
+    fmt.Printf("\n -- %s \n", job["Description"])
+    fmt.Printf("\n -- %s \n", job["CompanyName"])
+    fmt.Printf("\n -- %s \n", job["ListingPitch"])
+    fmt.Printf("\n -- %s \n", job["ShortDescription"])
+    */
     insert(db, job)
     break
   }
