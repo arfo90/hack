@@ -20,7 +20,6 @@ func scrapUrls(url string) []string{
     log.Fatal(err)
   }
 
-  fmt.Printf("Starting scrapping")
   var urls []string
 
   // Find the review items
@@ -42,13 +41,12 @@ func scrapJob(url string) map[string]string{
     log.Fatal(err)
   }
 
-  fmt.Printf("Starting scrapping job ads...")
-
   job["Title"] = doc.Find("h1.bsj-h1").Text()
   job["Description"] = doc.Find("div.job-details").Text()
   job["CompanyName"] = strings.Trim(doc.Find("span.title-company-name").Text(), "// ")
   job["PublishedDate"] = doc.Find("div.product-listing-date").Text()
   job["ShortDescription"] = doc.Find("div.paragraph").Text()
+  job["Source"] = url
 
   return job
 }
@@ -76,7 +74,7 @@ func insert(sqlDb *sql.DB, job map[string]string){
   if err != nil {
     log.Fatal(err)
   }
-  _, err = stmt.Exec(job["CompanyName"], job["Title"], job["ShortDescription"], time.Now(), "BerlinStartupJobs", job["Description"])
+  _, err = stmt.Exec(job["CompanyName"], job["Title"], job["ShortDescription"], time.Now(), job["Source"], job["Description"])
   if err != nil {
     log.Fatal(err)
   }
@@ -84,23 +82,30 @@ func insert(sqlDb *sql.DB, job map[string]string){
   if err != nil {
     log.Fatal(err)
   }
+  fmt.Println(".")
+}
+
+func workers(url <-chan string, db *sql.DB){
+    for {
+        content := scrapJob(<-url)
+        insert(db, content)
+    }
 }
 
 func main(){
-  urls := scrapUrls("http://berlinstartupjobs.com/engineering/page/1/")
+  targets := make(chan string)
   db := dbConnect()
 
-  for _, u := range urls {
-    url := strings.Replace(u, "location.href=", "", -1)
-    job := scrapJob(strings.Trim(url, "'"))
-    /*
-    fmt.Printf("\n -- %s \n", job["Title"])
-    fmt.Printf("\n -- %s \n", job["Description"])
-    fmt.Printf("\n -- %s \n", job["CompanyName"])
-    fmt.Printf("\n -- %s \n", job["ListingPitch"])
-    fmt.Printf("\n -- %s \n", job["ShortDescription"])
-    */
-    insert(db, job)
-    break
+  for j := 0; j <= 10; j++ {
+      go workers(targets, db)
   }
+
+  for page := 1; page <= 20; page++{
+    url_list := scrapUrls(fmt.Sprintf("http://berlinstartupjobs.com/engineering/page/%d/", page))
+    for _, u := range url_list {
+        url := strings.Replace(u, "location.href=", "", -1)
+        targets <- strings.Trim(url, "'")
+    }
+  }
+  close(targets)
 }
