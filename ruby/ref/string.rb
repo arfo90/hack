@@ -63,3 +63,24 @@ p s_count.word_count
 p 'A string'.respond_to? :to_str
 
 ('a'..'k').each {|x| p x}
+
+
+# Return the position within the string where the right operand matches
+# or nil if no match can be foud
+#  ' =~ '
+# However since it might be a bit confusing, the alternative, can be also
+# as below
+
+if meesage =~ /^ERROR:\s+(.+)$/
+  true
+end
+
+# Alternative
+
+if m = message.match(/^ERROR:\s+(.+)$/)
+  true
+end
+
+
+
+
