@@ -1,0 +1,6 @@
+*
+
+!run.sh
+!.gitignore
+!Dockerfile
+!docker-compose.yml
