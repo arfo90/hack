@@ -6,10 +6,6 @@ import (
   "log"
   "strings"
   "os"
-  "time"
-
-  "database/sql"
-  _ "github.com/go-sql-driver/mysql"
 )
 
 func scrapUrls(url string) []string{
@@ -51,53 +47,20 @@ func scrapJob(url string) map[string]string{
   return job
 }
 
-func dbConnect() *sql.DB{
-  connectionString := fmt.Sprintf("%s:%s@/%s", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_DB_NAME"))
-  db, err := sql.Open("mysql", connectionString)
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  return db
-}
-
-func insert(sqlDb *sql.DB, job map[string]string){
-  db := sqlDb
-  tx, err := db.Begin()
-  if err != nil {
-    log.Fatal(err)
-  }
-  defer tx.Rollback()
-  stmt, err := tx.Prepare("INSERT INTO vacancy(company_name,job_title,description,created_date,source,description_long) VALUES (?,?,?,?,?,?)")
-  defer stmt.Close()
-  if err != nil {
-    log.Fatal(err)
-  }
-  _, err = stmt.Exec(job["CompanyName"], job["Title"], job["ShortDescription"], time.Now(), job["Source"], job["Description"])
-  if err != nil {
-    log.Fatal(err)
-  }
-  err = tx.Commit()
-  if err != nil {
-    log.Fatal(err)
-  }
-  fmt.Println(".")
-}
-
-func workers(url <-chan string, db *sql.DB){
+func workers(url <-chan string, s Storage){
     for {
         content := scrapJob(<-url)
-        insert(db, content)
+        s.Insert(content)
     }
 }
 
 func main(){
   targets := make(chan string)
-  db := dbConnect()
+  s := Storage{}
+  s.NewStorage(os.Getenv("DB_NAME"), os.Getenv("DB_USER"), os.Getenv("DB_HOST"), os.Getenv("DB_PASS"))
 
   for j := 0; j <= 10; j++ {
-      go workers(targets, db)
+      go workers(targets, s)
   }
 
   for page := 1; page <= 20; page++{
